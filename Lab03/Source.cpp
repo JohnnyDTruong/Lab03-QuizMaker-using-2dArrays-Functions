@@ -13,92 +13,89 @@ char menu();
 void addQuestion(string B[5][2], int question1);
 void displayQuiz(string B[5][2], int question1);
 
-
-//this function adds in the Blank Question
-//and the Blank Answer
 int main()
 {
-	string B[5][2];
-	int question1 = 0;
-	cout << "Welcome to Quizmaker!" << endl;
-	cout << "Make a quiz up to 5 questions long!" << endl;
-	char choice;
+    string B[5][2];
+    int questionCount = 0;
+    cout << "Welcome to Quizmaker!" << endl;
+    cout << "Make a quiz up to 5 questions long!" << endl;
+    char choice;
 
-	for (int rows = 0; rows < 5; rows++)
-	{
+    // Initialize the quiz array with default values
+    for (int rows = 0; rows < 5; rows++)
+    {
+        B[rows][0] = "Blank Question";
+        B[rows][1] = "Blank Answer";
+    }
 
-		B[rows][0] = "Blank Question";
-		B[rows][1] = "Blank Answer";
-	}
-	do
-	{
-		choice = menu();
+    do
+    {
+        choice = menu();
 
-	//only works if the user chooses a
-	//allows user to choose b to quit function
-		if (choice == 'a')
-		{
-			addQuestion(B, question1);
-			cout << " Question" << question1 + 1 << " added!!!" << endl;
-			question1 += 1;
-		}
+        // Handle user choice
+        if (choice == 'a')
+        {
+            if (questionCount < 5)
+            {
+                addQuestion(B, questionCount);
+                cout << "Question " << questionCount + 1 << " added!!!" << endl;
+                questionCount++;
+            }
+            else
+            {
+                cout << "Maximum number of questions reached!" << endl;
+                break;
+            }
+        }
+        else if (choice != 'b')
+        {
+            cout << "The input is INVALID!!" << endl;
+        }
 
-	//anything else will be invalid
-	//and the function will end
-		else
-		{
-			cout << "The input in INVALID!!" << endl;
-		}
+    } while (choice != 'b');
 
-	//choice b allows the function to quit
-	//the function will automatically quit after 5 questions
-	} while (question1 < 5 && choice != 'b');
-	displayQuiz(B, question1);
+    displayQuiz(B, questionCount);
 
-	return 0;
+    return 0;
 }
 
-//this function allows the users to create a question
-//this gives the users options to "create a question" or "quit"
-	char menu()
+// Function to display the menu and get the user's choice
+char menu()
 {
-	char choice;
-	cout << "What would you like to do?" << endl;
-	cout << " \'a\' create a question, \'b\' quit" << endl;
-	cout << "Choice: " << endl;
-	cin >> choice;
-	cin.ignore();
-
-	return choice;
+    char choice;
+    cout << "What would you like to do?" << endl;
+    cout << " 'a' create a question, 'b' quit" << endl;
+    cout << "Choice: ";
+    cin >> choice;
+    cin.ignore(); // Clear the newline character from the buffer
+    return choice;
 }
 
-
-//this function allows the user to add the question
-//this also allows the user to add the answer
+// Function to add a question and its answer to the quiz
 void addQuestion(string B[5][2], int question1)
 {
-	string questions;
-	cout << "Please create a question: " << endl;
-	getline(cin, questions);
-	B[question1][0] = questions;
-	cout << endl;
-	string answers;
-	cout << "Please add in the answer: " << endl;
-	getline(cin, answers);
-	B[question1][1] = answers;
+    string questions;
+    cout << "Please create a question: ";
+    getline(cin, questions);
+    B[question1][0] = questions;
 
+    string answers;
+    cout << "Please add in the answer: ";
+    getline(cin, answers);
+    B[question1][1] = answers;
 }
 
-//creates the display for the quiz
-void displayQuiz(string B[5][2], int question1)
+// Function to display the created quiz
+void displayQuiz(string B[5][2], int questionCount)
 {
-	cout << "Created the quiz!!" << endl;
-	for (int bCols = 0; bCols < 5; bCols++)
-	{
-		cout << "Q" << bCols + 1 << ": " << B[bCols][0] << endl;
-		cout << "A" << bCols + 1 << ": " << B[bCols][0] << endl;
-	}
+    cout << "Created the quiz!!" << endl;
+    for (int i = 0; i < questionCount; i++)
+    {
+        cout << "Q" << i + 1 << ": " << B[i][0] << endl;
+        cout << "A" << i + 1 << ": " << B[i][1] << endl; // Corrected to display the answer
+    }
 }
+
 
 /*
 Welcome to Quizmaker!
